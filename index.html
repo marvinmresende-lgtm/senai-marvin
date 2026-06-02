@@ -275,19 +275,16 @@
 .login-box input{
     width:80%;
     height:55px;
-
-    background:transparent;
-
-    border:1px solid #555;
-
+    background:#2b2b2b;
+    border:none;
     border-radius:12px;
-
     color:white;
-
     padding-left:20px;
-
     font-size:18px;
+    display:block;
+    margin:10px auto;
 }
+
 
 .continuar{
     display:block;
@@ -321,18 +318,28 @@
 
     <img src="iimagens/batman.jpg" alt="LOGO" class="logo">
 
-    <h1>Continue com o e-mail</h1>
+  <h1>Iniciar Sessão</h1>
 
-    <p>
-      Você pode iniciar sessão se você já tiver uma conta
-      ou podemos ajudar você a criar uma.
-    </p>
+<p>
+  Digite seu usuário e senha para acessar o Senai TV.
+</p>
 
-    <input type="email" placeholder="E-mail">
+<input
+  type="text"
+  id="usuario"
+  placeholder="Usuário"
+>
 
-    <button class="continuar">
-      Continuar
-    </button>
+<input
+  type="password"
+  id="senha"
+  placeholder="Senha"
+  style="margin-top:15px;"
+>
+
+<button class="continuar" onclick="validarLogin()">
+  Entrar
+</button>
 
   </div>
 
@@ -427,14 +434,34 @@
     </div>
   </section>
 
-     <script>
-    function abrirLogin(){
-      document.getElementById("loginModal").style.display="flex";
-    }
+   <script>
 
-    function fecharLogin(){
-    document.getElementById("loginModal").style.display="none";
-    }
-    </script>
+function abrirLogin(){
+  document.getElementById("loginModal").style.display = "flex";
+}
+
+function fecharLogin(){
+  document.getElementById("loginModal").style.display = "none";
+}
+
+function validarLogin(){
+
+  let usuario = document.getElementById("usuario").value;
+  let senha = document.getElementById("senha").value;
+
+  if(usuario === "professor" && senha === "1234"){
+
+    alert("Login bem sucedido!");
+    fecharLogin();
+
+  }else{
+
+    alert("Usuário ou senha incorretos!");
+
+  }
+
+}
+
+</script>
 </body>
 </html>
