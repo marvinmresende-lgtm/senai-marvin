@@ -75,7 +75,7 @@ header {
     border-radius: 15px;
 
 }
- {
+ 
  header h1 {
     color: white;
     text-shadow:
@@ -97,20 +97,27 @@ header p {
    ============================================================ */
 .placar {
   display: flex;
-  gap: 1rem;
-  animation: fadeDown 0.6s 0.1s ease both;
+  gap: 0;
+  background: rgba(4, 21, 94, 0.82);
+  border: 2px solid #4b3cff;
+  border-radius: 22px;
+  padding: 12px 18px;
+  box-shadow: 0 0 25px rgba(65, 12, 255, 0.6);
+  backdrop-filter: blur(3px);
 }
 
 .stat {
-  background: var(--cor-painel);
-  border: 1px solid var(--cor-borda);
-  border-radius: var(--raio-painel);
-  padding: 0.7rem 1.4rem;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 0.5rem 1.8rem;
   text-align: center;
-  min-width: 90px;
-  transition: transform 0.2s;
+  min-width: 110px;
 }
 
+.stat:not(:last-child) {
+  border-right: 2px solid rgba(255,255,255,0.25);
+}
 .stat:hover { transform: translateY(-2px); }
 
 .stat-valor {
@@ -331,7 +338,7 @@ button:active { transform: translateY(0); opacity: 0.85; }
   height: 70px;
   object-fit: contain;
 }
-body {
+body {  
   min-height: 100vh;
 
   background-image: url('imagens/fundo.jpg');
@@ -346,14 +353,13 @@ body {
   position: fixed;
   inset: 0;
   background-image:
-    linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.75)),
+    linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.85)),
     url("imagens/intro.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
@@ -361,42 +367,36 @@ body {
   padding: 30px;
 }
 
-#intro img{
-  display: none;
+.intro-conteudo{
+  max-width: 850px;
+  background: rgba(0,0,0,0.55);
+  border: 2px solid #4b3cff;
+  border-radius: 20px;
+  padding: 35px;
+  box-shadow: 0 0 30px rgba(75,60,255,0.8);
 }
 
 #intro h1{
-  color: white;
-  font-size: 3.5rem;
+  color: #fff;
+  font-size: 2.5rem;
   text-shadow: 4px 4px 0 #000;
   margin-bottom: 20px;
 }
 
 #intro p{
-  max-width: 750px;
   color: #fff200;
   font-size: 1rem;
   line-height: 1.7;
+  margin-bottom: 15px;
   text-shadow: 2px 2px 5px #000;
-  margin-bottom: 25px;
 }
 
-#intro img{
-    width:80%;
-    max-width:700px;
-    border-radius:20px;
-    margin-bottom:20px;
+#intro strong{
+  color: white;
 }
 
-#intro h1{
-    color:white;
-    font-size:3rem;
-    margin-bottom:10px;
-}
-
-#intro p{
-    color:#ffd700;
-    margin-bottom:20px;
+#intro button{
+  margin-top: 15px;
 }
 /* ============================================================
    ANIMAÇÕES
@@ -468,24 +468,19 @@ body {
 <body>
 <div id="intro">
   <div class="intro-conteudo">
-    <h1>🚨 ALERTA MÁXIMO NA TORRE DA JUSTIÇA 🚨</h1>
+    <h1>🚨 ALERTA MÁXIMO  🚨</h1>
 
     <p>
       Os maiores vilões do Universo DC uniram forças.
-      Coringa espalhou o caos pelas cidades, Lex Luthor assumiu
-      o controle dos sistemas da torre, Sinestro enfraqueceu as defesas
-      da Liga da Justiça e Darkseid prepara a invasão final.
+      
     </p>
 
-    <p>
-      Os heróis lutaram bravamente, mas foram separados e capturados.
-      Agora, a última esperança do Universo DC está em suas mãos.
-    </p>
+    
 
     <p>
       Para libertar os heróis e impedir a destruição da Torre da Justiça,
-      encontre todos os pares escondidos no
-      <strong>JOGO DA MEMÓRIA DC UNIVERSE</strong>.
+      encontre todos os pares escondidos no 
+      <p><strong>JOGO DA MEMÓRIA DC UNIVERSE</strong></p>
     </p>
 
     <p>
@@ -526,13 +521,15 @@ body {
 
 <!-- MENSAGEM DE VITÓRIA -->
 <div class="vitoria" id="vitoria" role="alert" aria-live="polite">
-  <div class="vitoria-emoji">🥇</div>
+  <div class="vitoria-emoji" id="emoji-vitoria">🥇</div>
   <h2>BOA!</h2>
-  <p id="msg-vitoria">Você ganhou ojogo!</p>
+  <p id="msg-vitoria">Você ganhou o jogo!</p>
+
+  <button onclick="reiniciarJogo()">
+    Jogar Novamente
+  </button>
 </div>
 
-<!-- BOTÃO -->
-<button id="btn-reiniciar" onclick="iniciarJogo()">jogar↺</button>
 
 <!-- DICA PARA ALUNOS -->
 <p class="dica">
@@ -543,7 +540,9 @@ body {
 // ============================================================
 //  🎮 CONFIGURAÇÕES — altere aqui para personalizar
 // ============================================================
-const IMAGENS = ['imagens/pinguin.png','imagens/curinga.png','imagens/heravenenosa.png','imagens/mulhergato.png','imagens/exterminador.png','imagens/arlerquina.png','imagens/darkseid.png','imagens/lex.png','imagens/robo.png'];
+const IMAGENS = ['imagens/pinguin.png','imagens/curinga.png','imagens/heravenenosa.png',
+'imagens/mulhergato.png','imagens/exterminador.png','imagens/sinistro.png','imagens/darkseid.png',
+'imagens/lex.png','imagens/robo.png','imagens/alerquina.png'];
 // Dica: troque por outros emojis ou use letras, números, etc.
 
 const TOTAL_PARES = IMAGENS.length; // 8 pares = 16 cartas
@@ -574,7 +573,8 @@ function iniciarJogo() {
   document.getElementById('tempo').textContent      = '0s';
   document.getElementById('progresso').style.width  = '0%';
   document.getElementById('vitoria').classList.remove('visivel');
-
+document.getElementById('emoji-vitoria').textContent = '💀';
+document.getElementById('emoji-vitoria').textContent = '🥇';
   // Parar cronômetro anterior
   clearInterval(timerID);
   inicio  = Date.now();
@@ -683,15 +683,14 @@ somAcerto.play();
 // ============================================================
 function exibirVitoria() {
   clearInterval(timerID);
+
   const segundos = Math.round((Date.now() - inicio) / 1000);
   const eficiencia = Math.round((TOTAL_PARES / tentativas) * 100);
 
   document.getElementById('msg-vitoria').textContent =
     `${tentativas} tentativas · ${segundos}s · ${eficiencia}% de eficiência`;
 
-  setTimeout(() => {
-    document.getElementById('vitoria').classList.add('visivel');
-  }, 300);
+  document.getElementById('vitoria').classList.add('visivel');
 }
 
 // ============================================================
@@ -727,16 +726,20 @@ function atualizarTempo() {
     const titulo = vitoria.querySelector('h2');
     const mensagem = document.getElementById('msg-vitoria');
 
-    titulo.textContent = '💀 PERDEU!';
+    titulo.textContent = 'acabou o tempo!';
     mensagem.textContent = 'Tempo esgotado! Tente novamente.';
 
     vitoria.classList.add('visivel');
 
     bloqueado = true;
 
-    setTimeout(() => {
-      iniciarJogo();
-    }, 2000);
+setTimeout(() => {
+  document.getElementById('vitoria').classList.add('visivel');
+}, 300);
+
+setTimeout(() => {
+  reiniciarJogo();
+}, 5000);
   }
 }
 
@@ -750,12 +753,15 @@ function iniciarPartida() {
 
     iniciarJogo();
 }
+function reiniciarJogo() {
+  document.getElementById('vitoria').classList.remove('visivel');
+  iniciarJogo();
+}
 // ============================================================
 //  INICIAR AO CARREGAR
 // ============================================================
 // iniciarJogo();
 </script>
-<body>
 
   <!-- Todo o seu jogo aqui -->
 
