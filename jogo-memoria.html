@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jogo da Memória — SENAI</title>
+<title>🦇 Jogo da Memória — SENAI</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
 
 <style>
@@ -70,19 +70,18 @@ body {
    CABEÇALHO
    ============================================================ */
 header {
-  text-align: center;
-  animation: fadeDown 0.6s ease both;
-}
+    background: rgba(0,0,0,0.5);
+    padding: 15px 30px;
+    border-radius: 15px;
 
-header h1 {
-  font-family: var(--fonte-titulo);
-  font-size: clamp(1.8rem, 5vw, 2.8rem);
-  font-weight: 800;
-  letter-spacing: -1px;
-  background: linear-gradient(135deg, var(--cor-destaque), var(--cor-acerto));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+}
+ {
+ header h1 {
+    color: white;
+    text-shadow:
+      3px 3px 0 #000,
+      6px 6px 10px rgba(0,0,0,0.8);
+}
 }
 
 header p {
@@ -343,6 +342,62 @@ body {
   font-family: var(--fonte-corpo);
   color: var(--cor-texto);
 }
+#intro{
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.75)),
+    url("imagens/intro.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  z-index: 9999;
+  padding: 30px;
+}
+
+#intro img{
+  display: none;
+}
+
+#intro h1{
+  color: white;
+  font-size: 3.5rem;
+  text-shadow: 4px 4px 0 #000;
+  margin-bottom: 20px;
+}
+
+#intro p{
+  max-width: 750px;
+  color: #fff200;
+  font-size: 1rem;
+  line-height: 1.7;
+  text-shadow: 2px 2px 5px #000;
+  margin-bottom: 25px;
+}
+
+#intro img{
+    width:80%;
+    max-width:700px;
+    border-radius:20px;
+    margin-bottom:20px;
+}
+
+#intro h1{
+    color:white;
+    font-size:3rem;
+    margin-bottom:10px;
+}
+
+#intro p{
+    color:#ffd700;
+    margin-bottom:20px;
+}
 /* ============================================================
    ANIMAÇÕES
    ============================================================ */
@@ -409,12 +464,41 @@ body {
 }
 </style>
 </head>
-<body>
 
-<header>
-  <h1> Jogo da Memória UNIVERSO DC </h1>
-  <p>SENAI · Programador Front-End</p>
-</header>
+<body>
+<div id="intro">
+  <div class="intro-conteudo">
+    <h1>🚨 ALERTA MÁXIMO NA TORRE DA JUSTIÇA 🚨</h1>
+
+    <p>
+      Os maiores vilões do Universo DC uniram forças.
+      Coringa espalhou o caos pelas cidades, Lex Luthor assumiu
+      o controle dos sistemas da torre, Sinestro enfraqueceu as defesas
+      da Liga da Justiça e Darkseid prepara a invasão final.
+    </p>
+
+    <p>
+      Os heróis lutaram bravamente, mas foram separados e capturados.
+      Agora, a última esperança do Universo DC está em suas mãos.
+    </p>
+
+    <p>
+      Para libertar os heróis e impedir a destruição da Torre da Justiça,
+      encontre todos os pares escondidos no
+      <strong>JOGO DA MEMÓRIA DC UNIVERSE</strong>.
+    </p>
+
+    <p>
+      Cada par encontrado aproxima os heróis da vitória.
+      Cada erro dá mais tempo para os vilões avançarem.
+      Você tem apenas <strong>60 segundos</strong>.
+    </p>
+
+    <button onclick="iniciarPartida()">INICIAR JOGO</button>
+  </div>
+</div>
+
+<div id="jogo" style="display:none;">
 
 <!-- PLACAR -->
 <div class="placar">
@@ -452,14 +536,14 @@ body {
 
 <!-- DICA PARA ALUNOS -->
 <p class="dica">
-  Dica: edite as variáveis <code>:root</code> no CSS para mudar o visual!
+ 
 </p>
 
 <script>
 // ============================================================
 //  🎮 CONFIGURAÇÕES — altere aqui para personalizar
 // ============================================================
-const IMAGENS = ['imagens/batman.png','imagens/curinga.png','imagens/lanternaverde.png','imagens/mulhermaravilha.png','imagens/robin.png','imagens/cyborg.png','imagens/flash.png','imagens/aquaman.png'];
+const IMAGENS = ['imagens/pinguin.png','imagens/curinga.png','imagens/heravenenosa.png','imagens/mulhergato.png','imagens/exterminador.png','imagens/arlerquina.png','imagens/darkseid.png','imagens/lex.png','imagens/robo.png'];
 // Dica: troque por outros emojis ou use letras, números, etc.
 
 const TOTAL_PARES = IMAGENS.length; // 8 pares = 16 cartas
@@ -517,9 +601,10 @@ function iniciarJogo() {
         <div class="carta-verso">
           <span class="icone-verso">✦</span>
         </div>
+
        <div class="carta-frente" aria-hidden="true">
-  <img src="${emoji}" class="img-carta">
-</div>
+            <img src="${emoji}" class="img-carta">
+      </div>
       </div>`;
 
     carta.addEventListener('click', () => clicarCarta(carta));
@@ -537,12 +622,14 @@ function clicarCarta(carta) {
     carta.classList.contains('virada') ||
     carta.classList.contains('acertada')
   ) return;
+carta.classList.add('virada');
 
-  // Virar a carta
-  carta.classList.add('virada');
-  carta.setAttribute('aria-label', `Carta: ${carta.dataset.emoji}`);
-  cartasViradas.push(carta);
+const som = document.getElementById('somVirar');
+som.currentTime = 0;
+som.play();
 
+carta.setAttribute('aria-label', `Carta: ${carta.dataset.emoji}`);
+cartasViradas.push(carta);
   // Se só uma carta virada, aguardar próxima
   if (cartasViradas.length < 2) return;
 
@@ -554,12 +641,15 @@ function clicarCarta(carta) {
   const [c1, c2] = cartasViradas;
 
   if (c1.dataset.emoji === c2.dataset.emoji) {
+    const somAcerto = document.getElementById('somAcerto');
+somAcerto.currentTime = 0;
+somAcerto.play();
     // ✅ PAR ENCONTRADO
     setTimeout(() => {
       c1.classList.add('acertada');
       c2.classList.add('acertada');
-      c1.classList.remove('virado');
-      c2.classList.remove('virado');
+      c1.classList.remove('virada');
+      c2.classList.remove('virada');
       c1.setAttribute('aria-label', `Par encontrado: ${c1.dataset.emoji}`);
       c2.setAttribute('aria-label', `Par encontrado: ${c2.dataset.emoji}`);
       cartasViradas = [];
@@ -627,17 +717,51 @@ function atualizarStat(id, valor) {
 
 function atualizarTempo() {
   const s = Math.round((Date.now() - inicio) / 1000);
+
   document.getElementById('tempo').textContent = `${s}s`;
+
+  if (s >= 60) {
+    clearInterval(timerID);
+
+    const vitoria = document.getElementById('vitoria');
+    const titulo = vitoria.querySelector('h2');
+    const mensagem = document.getElementById('msg-vitoria');
+
+    titulo.textContent = '💀 PERDEU!';
+    mensagem.textContent = 'Tempo esgotado! Tente novamente.';
+
+    vitoria.classList.add('visivel');
+
+    bloqueado = true;
+
+    setTimeout(() => {
+      iniciarJogo();
+    }, 2000);
+  }
 }
+
 
 function atualizarProgresso(pct) {
   document.getElementById('progresso').style.width = `${pct}%`;
 }
+function iniciarPartida() {
+    document.getElementById("intro").style.display = "none";
+    document.getElementById("jogo").style.display = "block";
 
+    iniciarJogo();
+}
 // ============================================================
 //  INICIAR AO CARREGAR
 // ============================================================
-iniciarJogo();
+// iniciarJogo();
 </script>
+<body>
+
+  <!-- Todo o seu jogo aqui -->
+
+  <audio id="somVirar" src="sons/virar.mp3"></audio>
+  <audio id="somAcerto" src="sons/acerto.mp3"></audio>
+  <audio id="somErro" src="sons/erro.mp3"></audio>
+</div>
 </body>
 </html>
